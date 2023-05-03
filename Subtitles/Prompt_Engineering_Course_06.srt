@@ -1,0 +1,848 @@
+﻿1
+00:00:00,000 --> 00:00:05,000
+[静音]
+
+2
+00:00:05,000 --> 00:00:09,120
+Large language models are very good at transforming its input to a different format,
+大型语言模型非常擅长将其输入转换为不同的格式，
+
+3
+00:00:09,120 --> 00:00:13,560
+such as inputting a piece of text in one language and transforming it or
+例如输入一种语言的文本并将其转换或者
+
+4
+00:00:13,560 --> 00:00:15,960
+translating it to a different language, or
+翻译成另一种语言，或者
+
+5
+00:00:15,960 --> 00:00:18,560
+helping with spelling and grammar corrections.
+协助进行拼写和语法纠正。
+
+6
+00:00:18,560 --> 00:00:22,680
+So taking as input a piece of text that may not be fully grammatical and
+因此，输入一段可能不完全符合语法的文本，
+
+7
+00:00:22,680 --> 00:00:26,520
+helping you to fix that up a bit, or even transforming formats,
+让它帮助您稍微修正一下，甚至是转换格式，
+
+8
+00:00:26,520 --> 00:00:31,280
+such as inputting HTML and outputting JSON.
+例如输入HTML，输出JSON。
+
+9
+00:00:31,280 --> 00:00:35,120
+So there's a bunch of applications that I used to write somewhat painfully with
+我曾经开发一些应用程序时比较痛苦，因为用的是
+
+10
+00:00:35,120 --> 00:00:39,120
+a bunch of regular expressions that would definitely be much more simply implemented
+一堆正则表达式。现在肯定可以简单地来实现
+
+11
+00:00:39,120 --> 00:00:42,160
+now with a large language model and a few prompts.
+只需一个大语言模型和几个提示。
+
+12
+00:00:42,160 --> 00:00:46,600
+Yeah, I use chat-gbt to proofread pretty much everything I write these days.
+是的，现在我几乎用ChatGPT来校对我写的所有东西。
+
+13
+00:00:46,600 --> 00:00:49,520
+So I'm excited to show you some more examples in the notebook now.
+所以我很兴奋现在就在笔记本中向您展示更多示例。
+
+14
+00:00:51,080 --> 00:00:57,880
+So first we'll import OpenAI and also use the same getCompletion helper
+首先，我们将导入OpenAI，并使用相同的getCompletion辅助函数
+
+15
+00:00:57,880 --> 00:01:01,400
+function that we've been using throughout the videos.
+就像我们在整个视频中使用的那样。
+
+16
+00:01:01,400 --> 00:01:04,680
+And the first thing we'll do is a translation task.
+首先我们将进行一个翻译任务。
+
+17
+00:01:04,680 --> 00:01:09,920
+So large language models are trained on a lot of text from kind of many sources,
+因此，大型语言模型是在许多来源的大量文本上进行训练的，
+
+18
+00:01:09,920 --> 00:01:11,080
+a lot of which is the Internet.
+其中很多是来自于互联网。
+
+19
+00:01:11,080 --> 00:01:13,520
+And this is kind of, of course, in many different languages.
+而这些文本当然是用许多不同的语言编写的。
+
+20
+00:01:13,520 --> 00:01:17,560
+So this kind of imbues the model with the ability to do translation.
+因此，这种方法赋予了模型进行翻译的能力。
+
+21
+00:01:17,560 --> 00:01:21,200
+And these models know kind of hundreds of languages to varying degrees of
+这些模型可以使用数百种语言以不同程度的熟练度进行翻译。
+
+22
+00:01:21,200 --> 00:01:22,600
+proficiency.
+专业程度也不同。
+
+23
+00:01:22,600 --> 00:01:25,720
+And so we'll go through some examples of how to use this capability.
+因此，我们将通过一些示例介绍如何使用这种能力。
+
+24
+00:01:25,720 --> 00:01:28,880
+So let's start off with something simple.
+因此，让我们从简单的事情开始吧。
+
+25
+00:01:28,880 --> 00:01:31,480
+So in this first example,
+在第一个例子中，
+
+26
+00:01:31,480 --> 00:01:36,080
+the prompt is translate the following English text to Spanish.
+提示是将以下英文文本翻译成西班牙语。
+
+27
+00:01:36,080 --> 00:01:38,360
+Hi, I would like to order a blender.
+您好，我想订购一个搅拌机。
+
+28
+00:01:38,360 --> 00:01:45,400
+And the response is, hola, me gustaría ordenar una licuadora.
+回复是，您好，我想订购一个搅拌机。
+
+29
+00:01:45,400 --> 00:01:48,640
+And I'm very sorry to all of you Spanish speakers,
+非常抱歉，对所有的西班牙语使用者，
+
+30
+00:01:48,640 --> 00:01:52,520
+I never learned Spanish unfortunately, as you can definitely tell.
+很遗憾我从未学过西班牙语，正如你们肯定可以看出的。
+
+31
+00:01:52,520 --> 00:01:57,480
+Okay, let's try another example.
+好的，让我们再试一个例子。
+
+32
+00:01:57,480 --> 00:02:03,480
+So in this example, the prompt is, tell me what language this is.
+在这个例子中，提示是，告诉我这是什么语言。
+
+33
+00:02:03,480 --> 00:02:10,000
+And then this is in French, combien coûte le lampadaire?
+这句话是法语，意思是“这个台灯多少钱？”
+
+34
+00:02:10,000 --> 00:02:10,960
+And so let's run this.
+让我们来运行它。
+
+35
+00:02:13,120 --> 00:02:16,200
+And the model has identified that this is French.
+模型已经确定这是法语了。
+
+36
+00:02:16,200 --> 00:02:22,640
+The model can also do multiple translations at once.
+模型还可以同时进行多个翻译。
+
+37
+00:02:22,640 --> 00:02:27,000
+So in this example, let's say translate the following text to French and Spanish.
+例如，在这个例子中，我们让它将以下文本翻译成法语和西班牙语。
+
+38
+00:02:27,000 --> 00:02:32,720
+And you know what, let's add another, an English pirate.
+您知道吗，让我们再加一个，英语海盗。
+
+39
+00:02:32,720 --> 00:02:37,320
+And the text is, I want to order a basketball.
+这个文本是，“我想订购一个篮球。”
+
+40
+00:02:41,440 --> 00:02:45,960
+So here we have French, Spanish, and English pirate.
+这里我们有法语、西班牙语和英语海盗。
+
+41
+00:02:45,960 --> 00:02:51,800
+So in some languages, the translation can change depending on the speaker's
+在某些语言中，翻译可能会根据说话者和听者之间的关系而有所不同。
+
+42
+00:02:51,800 --> 00:02:53,760
+relationship to the listener.
+您可以向语言模型解释这一点，
+
+43
+00:02:53,760 --> 00:02:56,920
+And you can also explain this to the language model, and
+所以它就能够相应地进行翻译了。
+
+44
+00:02:56,920 --> 00:03:00,560
+so it will be able to kind of translate accordingly.
+在这个例子中，我们要求将以下文本翻译成西班牙语，
+
+45
+00:03:00,560 --> 00:03:05,040
+So in this example, we say, translate the following text to Spanish in both
+在这个例子中，我们说，将以下文本翻译成西班牙语。
+
+46
+00:03:05,040 --> 00:03:09,160
+the formal and informal forms, would you like to order a pillow?
+在正式和非正式场合下，您是否想要订购一个枕头吗？
+
+47
+00:03:09,160 --> 00:03:14,320
+And also notice here, we're using a different delimiter than these backticks.
+请注意，这里我们使用的分隔符，而不是这些反引号不同。
+
+48
+00:03:14,320 --> 00:03:17,240
+It doesn't really matter as long as it's kind of a clear separation.
+只要有一个清晰的分隔即可，其实并不重要。
+
+49
+00:03:17,240 --> 00:03:22,040
+So here we have the formal and informal.
+因此，在这里我们有正式和非正式的形式。
+
+50
+00:03:22,040 --> 00:03:26,880
+So formal is when you're speaking to someone who's kind of maybe senior to you
+正式的情况是当您与某个比您更高级别的人交谈时，
+
+51
+00:03:26,880 --> 00:03:29,000
+or you're in a professional situation.
+或者您处于展业场合时。
+
+52
+00:03:29,000 --> 00:03:30,280
+That's when you use a formal tone.
+这时您就需要使用正式语调。
+
+53
+00:03:30,280 --> 00:03:34,800
+And then informal is when you're speaking to maybe a group of friends.
+而非正式的情况是当您与一群朋友交谈时，
+
+54
+00:03:34,800 --> 00:03:37,560
+I don't actually speak Spanish, but my dad does and
+我实际上不会说西班牙语，但是我父亲会说，
+
+55
+00:03:37,560 --> 00:03:38,800
+he says that this is correct.
+他说这是正确的。
+
+56
+00:03:39,800 --> 00:03:44,640
+So for the next example, we're going to pretend that we're in charge of
+那么，对于下一个例子，我们将假装自己负责管理
+
+57
+00:03:44,640 --> 00:03:48,000
+a multinational e-commerce company.
+一家跨国电商公司。
+
+58
+00:03:48,000 --> 00:03:51,720
+And so the user messages are going to be in all different languages.
+因此，用户的消息将会是各种不同的语言。
+
+59
+00:03:51,720 --> 00:03:55,480
+And so users are going to be telling us about their IT issues in
+因此，用户将告诉我们他们在各种不同语言中的IT问题。
+
+60
+00:03:55,480 --> 00:03:57,640
+a wide variety of languages.
+各种不同的语言。
+
+61
+00:03:57,640 --> 00:04:00,640
+So we need a universal translator.
+所以我们需要一种通用翻译器。
+
+62
+00:04:00,640 --> 00:04:04,440
+So first, we'll just paste in a list of user messages in
+所以，首先我们将在列表中粘贴一些用户留言。
+
+63
+00:04:04,440 --> 00:04:06,040
+a variety of different languages.
+这些留言是用各种不同的语言书写的。
+
+64
+00:04:07,720 --> 00:04:15,680
+And now we will loop through each of these user messages.
+现在，我们将循环遍历每个用户留言。
+
+65
+00:04:15,680 --> 00:04:18,840
+So for issue in user messages.
+因此，对于每个用户留言，我们将执行以下操作。
+
+66
+00:04:18,840 --> 00:04:24,360
+And then I'm going to copy over this slightly longer code block.
+然后，我将复制这个稍微长一点的代码块。
+
+67
+00:04:24,360 --> 00:04:31,320
+And so the first thing we'll do is ask the model to
+首先，我们要让模型告诉我们
+
+68
+00:04:31,320 --> 00:04:32,520
+tell us what language the issue is in.
+这个问题用的是哪种语言。
+
+69
+00:04:32,520 --> 00:04:34,520
+So here's the prompt.
+以下是提示。
+
+70
+00:04:34,520 --> 00:04:40,640
+Then we'll print out the original message's language and the issue.
+然后，我们将打印出原始信息的语种和问题。
+
+71
+00:04:40,640 --> 00:04:43,960
+And then we'll ask the model to translate it into English and Korean.
+接下来，我们将让模型将其翻译成英语和韩语。
+
+72
+00:04:43,960 --> 00:04:46,880
+So let's run this.
+现在我们运行代码。
+
+73
+00:04:46,880 --> 00:04:50,720
+So the original message in French.
+原文是法语。
+
+74
+00:04:50,720 --> 00:04:58,440
+So we have a variety of languages and
+我们有各种语种，
+
+75
+00:04:58,440 --> 00:05:03,000
+then the model translates them into English and then Korean.
+然后模型将其翻译成英语和韩语。
+
+76
+00:05:03,000 --> 00:05:07,880
+And you can kind of see here, so the model says, this is French.
+您可以看到，模型显示这是法语。
+
+77
+00:05:07,880 --> 00:05:13,480
+So that's because the response from this prompt is going to be, this is French.
+这是因为此提示的响应将是“这是法语”。
+
+78
+00:05:13,480 --> 00:05:17,200
+You could try editing this prompt to say something like, tell me what language this
+您可以尝试编辑此提示，比如说，“告诉我这是什么语言”。
+
+79
+00:05:17,200 --> 00:05:22,880
+is, respond with only one word, or don't use a sentence, that kind of thing.
+并只用一个单词回答，或者不使用完整的句子等等。
+
+80
+00:05:22,880 --> 00:05:25,440
+If you wanted this to just be kind of one word.
+如果您只想让它回答一个单词。
+
+81
+00:05:25,440 --> 00:05:28,520
+Or you could kind of ask for it in a JSON format or something like that,
+或者您可以请求以JSON格式或类似的方式进行。
+
+82
+00:05:28,520 --> 00:05:32,480
+which would probably encourage it to not use a whole sentence.
+这可能会促使它不使用完整的句子。
+
+83
+00:05:33,480 --> 00:05:38,280
+And so, amazing, you've just built a universal translator.
+太棒了，您刚刚建立了一个通用翻译器。
+
+84
+00:05:38,280 --> 00:05:41,480
+And also feel free to pause the video and
+您也可以随意暂停视频，
+
+85
+00:05:41,480 --> 00:05:44,640
+add kind of any other languages you want to try here.
+添加您想要尝试的任何其他语言。
+
+86
+00:05:44,640 --> 00:05:48,360
+Maybe languages you speak yourself and see how the model does.
+也许是您自己会说的语言，看看模型的表现如何。
+
+87
+00:05:48,360 --> 00:05:54,720
+So the next thing we're going to dive into is tone transformation.
+接下来，我们将深入探讨语调转换。
+
+88
+00:05:54,720 --> 00:05:57,680
+Writing can vary based on kind of an intended audience.
+写作风格可能会根据目标受众的不同而有所变化。
+
+89
+00:05:57,680 --> 00:06:02,680
+The way that I would write an email to a colleague or a professor is obviously
+我给同事或教授写电子邮件的方式显然会有所不同，
+
+90
+00:06:02,680 --> 00:06:07,040
+going to be quite different to the way I text my younger brother.
+将来和我给我年幼的兄弟发短信的方式会有很大不同。
+
+91
+00:06:07,040 --> 00:06:10,160
+And so, ChatGPT can actually also help produce different tones.
+因此，ChatGPT实际上也可以帮助产生不同的语调。
+
+92
+00:06:10,160 --> 00:06:14,520
+So let's look at some examples.
+让我们看一些例子。
+
+93
+00:06:14,520 --> 00:06:16,960
+So in this first example,
+在这第一个例子中，
+
+94
+00:06:16,960 --> 00:06:20,960
+the prompt is translate the following from slang to a business letter.
+提示是将以下俚语翻译成商业信函。
+
+95
+00:06:20,960 --> 00:06:24,000
+Dude, this is Joe, check out this spec on the standing lamp.
+伙计，我是乔，看看这盏落地灯的规格。
+
+96
+00:06:26,160 --> 00:06:28,440
+So let's execute this.
+让我们执行这个。
+
+97
+00:06:28,440 --> 00:06:35,840
+And as you can see, we have a much more formal business letter
+正如您所看到的，我们有了一封更正式的商业信函
+
+98
+00:06:35,840 --> 00:06:40,080
+with a proposal for a standing lamp specification.
+其中有一个站立灯规格的建议书。
+
+99
+00:06:40,080 --> 00:06:44,680
+The next thing that we're going to do is to convert between different formats.
+我们接下来要做的是在不同格式之间进行转换。
+
+100
+00:06:44,680 --> 00:06:48,680
+ChatGPT is very good at translating between different formats such as JSON to
+ChatGPT非常擅长在不同的格式之间进行翻译，例如JSON到
+
+101
+00:06:48,680 --> 00:06:53,440
+HTML, XML, all kinds of things, markdown.
+HTML、XML、各种各样的，还有Markdown。
+
+102
+00:06:54,920 --> 00:06:58,880
+And so in the prompt, we'll describe both the input and the output formats.
+因此在提示中，我们将描述输入和输出格式。
+
+103
+00:06:58,880 --> 00:07:02,040
+So here is an example.
+这是一个例子。
+
+104
+00:07:02,040 --> 00:07:06,280
+So we have this JSON that contains
+因此我们有这个包含以下内容的JSON
+
+105
+00:07:06,280 --> 00:07:09,560
+a list of restaurant employees with their name and email.
+餐厅员工名单及其姓名和电子邮件。
+
+106
+00:07:09,560 --> 00:07:12,680
+And then in the prompt,
+然后在提示中，
+
+107
+00:07:12,680 --> 00:07:18,000
+we're going to ask the model to translate this from JSON to HTML.
+我们要求模型将这个JSON翻译成HTML。
+
+108
+00:07:18,000 --> 00:07:22,040
+So the prompt is translate the following Python dictionary from JSON to
+因此，提示是将以下Python字典从JSON翻译成
+
+109
+00:07:22,040 --> 00:07:25,160
+an HTML table with column headers and titles.
+一个带有列标题和标题的HTML表格。
+
+110
+00:07:25,160 --> 00:07:34,360
+And then we'll get the response from the model and print it.
+然后模型做出响应并将其打印出来。
+
+111
+00:07:34,360 --> 00:07:43,120
+So here we have some HTML displaying all of the employee names and emails.
+所以这里我们有一些HTML，显示所有员工的姓名和电子邮件。
+
+112
+00:07:43,120 --> 00:07:49,560
+And so now let's see if we can actually view this HTML.
+那么现在让我们看看我们是否可以实际查看这个HTML。
+
+113
+00:07:49,560 --> 00:07:54,600
+So we're going to use this display function from this Python library,
+因此，我们将使用这个Python库中的display函数，
+
+114
+00:07:54,600 --> 00:07:57,840
+display HTML response.
+显示HTML。
+
+115
+00:07:57,840 --> 00:08:05,200
+And here you can see that this is a properly formatted HTML table.
+在这里，您可以看到这是一个格式正确的HTML表格。
+
+116
+00:08:05,200 --> 00:08:13,160
+The next transformation task we're going to do is spell check and grammar checking.
+我们接下来要做的转换任务是拼写检查和语法检查。
+
+117
+00:08:13,160 --> 00:08:16,760
+And this is a really kind of popular use for ChatGPT.
+这是ChatGPT的一种非常受欢迎的用途。
+
+118
+00:08:16,760 --> 00:08:18,760
+I highly recommend doing this.
+我强烈推荐这样做。
+
+119
+00:08:18,760 --> 00:08:20,240
+I do this all the time.
+我一直在做这个。
+
+120
+00:08:20,240 --> 00:08:23,400
+And it's especially useful when you're working in a non-native language.
+当您使用非母语语言工作时，这尤其有用。
+
+121
+00:08:23,400 --> 00:08:26,960
+And so here are some examples of some kind of common grammar and
+这里是一些常见的语法和拼写问题的例子，
+
+122
+00:08:26,960 --> 00:08:32,000
+spelling problems and how the language model can help address these.
+以及语言模型如何帮助解决这些问题。
+
+123
+00:08:32,000 --> 00:08:37,880
+So I'm going to paste in a list of sentences that have some kind of
+因此，我将粘贴一些具有某种语法或拼写错误的句子列表。
+
+124
+00:08:37,880 --> 00:08:39,840
+grammatical or spelling errors.
+语法或拼写错误。
+
+125
+00:08:39,840 --> 00:08:48,360
+And then we're going to loop through each of these sentences.
+然后我们将循环遍历这些句子中的每一个。
+
+126
+00:08:49,360 --> 00:08:55,360
+And ask the model to proofread these.
+并要求模型校对这些句子。
+
+127
+00:08:56,360 --> 00:08:59,360
+Proofread and correct.
+校对和纠正。
+
+128
+00:08:59,860 --> 00:09:04,860
+And then we'll use some delimiters.
+然后我们将使用一些分隔符。
+
+129
+00:09:11,960 --> 00:09:17,560
+And then we will get the response and print it as usual.
+模型做出响应，并像往常一样将其打印出来。
+
+130
+00:09:35,260 --> 00:09:41,420
+And so the model is able to correct all of these grammatical errors
+就这样，这个模型能够纠正所有这些语法错误
+
+131
+00:09:41,420 --> 00:09:44,180
+We could use some of the techniques that we've discussed before
+我们可以使用我们之前讨论过的一些技巧
+
+132
+00:09:44,180 --> 00:09:50,100
+So to improve the prompt, we could say proofread and correct the following text
+因此，为了改进提示，我们可以说校对和纠正以下文字
+
+133
+00:09:52,100 --> 00:09:56  ,580
+And rewrite
+并重写
+
+135
+00:10:03,580 --> 00:10:08,580
+And rewrite the whole
+并重写整个
+
+136
+00:10:09,580--> 00:10:10,580
+And rewrite it
+并重写
+
+137
+00:10:12,380 --> 00:10:16,580
+Corrected version
+改正后的版本
+
+138
+00:10:16,580 --> 00:10:27,100
+If you don't find any errors, just say no errors found
+如果您没有发现任何错误，就说没有发现错误
+
+139
+00:10:27,700 --> 00:10:30,700
+Let's try this
+让我们来试试这个
+
+140
+00:10:32,700 --> 00:10:37,700
+So this way we were able to, oh, they're still using quotes here
+因此，这种方式我们能够，哦，他们在这里仍然使用引号
+
+141
+00:10:37,700 --> 00:10:42,940
+But you can imagine you'd be able to find a way with a little bit of
+但您可以想象，您能够找到一种方法，用一点点的
+
+142
+00:10:42,940 --> 00:10:45,780
+iterative prompt development to
+迭代提示开发
+
+143
+00:10:45,780 --> 00:10:49,260
+kind of find a prompt that works more reliably every single time
+找到一种更可靠的提示方式，每一次都能正常工作
+
+144
+00:10:49,260 --> 00:10:51,700
+And so now we'll do another example
+因此，现在我们将实现另一个例子
+
+145
+00:10:51,700 --> 00:10:56,040
+It's always useful to check your text before you post it in a public forum
+在您把您的文本发布到公共论坛之前，检查它总是有用的
+
+146
+00:10:56,040 --> 00:10:59,100
+And so we'll go through an example of checking a review
+因此，我们将通过一个检查评论的例子
+
+147
+00:10:59,100 --> 00:11:01,980
+And so here is a review about a stuffed panda
+这里有一个关于毛绒熊猫的评论
+
+148
+00:11:01,980 --> 00:11:06,740
+And so we're going to ask the model to proofread and correct the review
+因此，我们将要求模型校对和纠正评论
+
+149
+00:11:06,740 --> 00:11:11,100
+Great. So we have this corrected version
+很好。所以我们有了这个更正的版本
+
+150
+00:11:11,100 --> 00:11:14,860
+And one cool thing we can do is find
+我们可以做的一件很酷的事情是找到
+
+151
+00:11:14,860 --> 00:11:19,180
+the kind of differences between our original review and the model's output
+我们的原始评论和模型的输出之间的差异
+
+152
+00:11:19,180 --> 00:11:24,380
+So we're going to use this red lines Python package to do this
+所以我们要基于这个Redlines Python包来做这个
+
+153
+00:11:24,380 --> 00:11:26,800
+And we're going to get the diff between
+我们将得到以下的差异
+
+154
+00:11:26,800 --> 00:11:32,460
+the original text of our review and the model output
+我们评论的原文和模型的输出之间的差异
+
+155
+00:11:32,460 --> 00:11:36,740
+and then display this
+然后显示这个
+
+156
+00:11:36,740 --> 00:11:40,340
+And so here you can see the diff between the original review
+所以在这里您可以看到原始评论和模型输出之间的差异
+
+157
+00:11:40,340 --> 00:11:44,940
+and the model output and the kind of things that have been corrected
+和模型输出之间的差异，以及那些已经被纠正的东西
+
+158
+00:11:44,940 --> 00:11:49,380
+So the prompt that we use was proofread and correct this review
+因此，我们使用的提示是校对和纠正这个评论
+
+159
+00:11:49,380 --> 00:11:52,820
+But you can also make kind of more dramatic changes
+但您也可以做一些更戏剧性的改变
+
+160
+00:11:52,820 --> 00:11:55,700
+kind of changes to tone and that kind of thing
+语调的变化，以及诸如此类的事情
+
+161
+00:11:55,700 --> 00:12:00,340
+So let's try one more thing
+因此，让我们再试一试
+
+162
+00:12:00,340 --> 00:12:04,500
+So in this prompt, we're going to ask the model to proofread and correct
+所以在这个提示中，我们将要求模特校对和纠正
+
+163
+00:12:04,500 --> 00:12:08,700
+the same review, but also make it more compelling and ensure that it
+同样的评论，但也要使其更有说服力，并确保其
+
+164
+00:12:08,700 --> 00:12:11,860
+follows APA style and targets an advanced reader
+遵循APA风格，并针对高级读者
+
+165
+00:12:11,860 --> 00:12:14,860
+And we're also going to ask for the output in markdown format
+我们还将要求以Markdown格式输出结果
+
+166
+00:12:14,860 --> 00:12:18,780
+And so we're using the same text from the original review up here
+因此，我们在这里使用原始审查的相同文本
+
+167
+00:12:18,780 --> 00:12:23,260
+So let's execute this
+因此，让我们来执行这个
+
+168
+00:12:23,260 --> 00:12:30,380
+And here we have a expanded APA style review of the soft Panda
+在这里，我们有一个扩展的APA风格的毛绒熊猫的评论
+
+169
+00:12:30,380 --> 00:12:32,300
+So this is it for the tra nsforming video
+因此，这是它的转换视频
+
+170
+00:12:32,300 --> 00:12:35,700
+Next up, we have expanding where we'll take a shorter prompt
+接下来，我们将使用扩写功能，采取较短的提示
+
+171
+00:12:35,700 --> 00:12:54,180
+and kind of generate a longer, more freeform response from a language model.
+并从语言模型中产生一个更长、更自由的反应
