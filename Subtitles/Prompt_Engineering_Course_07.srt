@@ -1,0 +1,623 @@
+1
+00:00:00,000 --> 00:00:05,040
+[静音]
+
+2
+00:00:05,040 --> 00:00:08,140
+Expanding is the task of taking a shorter piece of text,
+“扩展(expanding)”是指将较短的文本片段，
+
+3
+00:00:08,140 --> 00:00:11,080
+such as a set of instructions or a list of topics,
+例如一组说明或主题列表，
+
+4
+00:00:11,080 --> 00:00:14,840
+and having the large language model generate a longer piece of text,
+让大型语言模型生成更长的文本，
+
+5
+00:00:14,840 --> 00:00:18,200
+such as an email or an essay about some topic.
+例如，有关某个主题的电子邮件或文章。
+
+6
+00:00:18,200 --> 00:00:20,040
+There are some great uses of this,
+这有一些很好的用途，
+
+7
+00:00:20,040 --> 00:00:23,920
+such as if you use a large language model as a brainstorming partner.
+例如，将大型语言模型当做一个进行头脑风暴的伙伴。
+
+8
+00:00:23,920 --> 00:00:26,240
+But I just also want to acknowledge that there's
+但我还想承认这也存在一些
+
+9
+00:00:26,240 --> 00:00:28,440
+some problematic use cases of this,
+问题用例
+
+
+10
+00:00:28,440 --> 00:00:32,440
+such as if someone were to use it to generate a large amount of spam.
+例如某人将其用于生成大量垃圾邮件。
+
+11
+00:00:32,440 --> 00:00:36,040
+So when you use these capabilities of a large language model,
+当你使用大型语言模型的这些能力时，
+
+
+12
+00:00:36,040 --> 00:00:41,280
+please use it only in a responsible way and in a way that helps people.
+请只在负责任的方式和有助于人们的方式下使用。
+
+
+13
+00:00:41,280 --> 00:00:45,240
+In this video, we'll go through an example of how you can use
+在本视频中，我们将演示如何使用语言模型根据某些信息生成个性化的电子邮件。
+
+14
+00:00:45,240 --> 00:00:49,840
+a language model to generate a personalized email based on some information.
+使用语言模型生成一封基于某些信息的个性化电子邮件。
+
+15
+00:00:49,840 --> 00:00:53,240
+The email is kind of self-proclaimed to be from an AI bot,
+该电子邮件自称是来自一个AI机器人，
+
+16
+00:00:53,240 --> 00:00:56,120
+which as Andrew mentioned, is very important.
+正如安德鲁所提到的那样，这非常重要。
+
+17
+00:00:56,120 --> 00:00:58,480
+We're also going to use another one of
+我们还将使用模型的另一个
+
+18
+00:00:58,480 --> 00:01:01,240
+the model's input parameters called temperature,
+输入参数，称为“temperature”(“随机性参数”),
+
+19
+00:01:01,240 --> 00:01:04,760
+and this allows you to vary the degree of
+这允许你改变模型响应中的
+
+20
+00:01:04,760 --> 00:01:08,720
+exploration and variety in the model's responses.
+可探索性和多样性程度。
+
+21
+00:01:08,720 --> 00:01:10,960
+So let's get into it.
+让我们开始吧。
+
+22
+00:01:10,960 --> 00:01:12,720
+So before we get started,
+在我们开始之前，
+
+23
+00:01:12,720 --> 00:01:15,740
+we're going to do the usual setup.
+我们将进行通常的设置。
+
+24
+00:01:15,740 --> 00:01:18,360
+So set up the OpenAI Python package,
+设置OpenAI Python软件包，
+
+25
+00:01:18,360 --> 00:01:22,040
+and then also define our helper function, get_Completion.
+然后还要定义我们的helper函数、get_Completion。
+
+26
+00:01:22,040 --> 00:01:26,440
+Now we're going to write a custom email response to a customer review.
+现在，我们将撰写对客户评论制定邮件响应。
+
+27
+00:01:26,440 --> 00:01:29,880
+So given a customer review and the sentiment,
+我们将使用语言模型生成一封针对客户评论和评论情感的电子邮件。
+
+28
+00:01:29,880 --> 00:01:32,640
+we're going to generate a custom response.
+我们将生成一个定制响应。
+
+29
+00:01:32,640 --> 00:01:37,040
+Now we're going to use the language model to generate
+现在，我们将使用语言模型生成一封针对客户评论和评论情感的电子邮件。
+
+30
+00:01:37,040 --> 00:01:43,960
+a custom email to a customer based on a customer review and the sentiment of the review.
+基于客户评论和评论情感，生成一封面向客户的定制电子邮件。
+
+31
+00:01:43,960 --> 00:01:47,040
+So we've already extracted the sentiment
+我们已经提取了情感，
+
+32
+00:01:47,040 --> 00:01:52,680
+using the kind of prompts that we saw in the inferring video,
+使用我们在推断视频中看到的提示，
+
+33
+00:01:52,680 --> 00:01:56,960
+and then this is the customer review for a blender.
+这是关于搅拌机的客户评论。
+
+34
+00:01:56,960 --> 00:02:02,680
+Now we're going to customize the reply based on the sentiment.
+现在，我们将根据情感定制回复。
+
+35
+00:02:02,680 --> 00:02:05,160
+So here the instruction is,
+在这里，指令是：
+
+36
+00:02:05,160 --> 00:02:08,240
+you are a customer service AI assistant.
+你是客户服务AI助手。
+
+37
+00:02:08,240 --> 00:02:11,160
+Your task is to send an email reply to a valued customer.
+你的任务是向重要客户发送电子邮件回复。
+
+38
+00:02:11,160 --> 00:02:14,500
+Given the customer email delimited by three backticks,
+鉴于客户电子邮件由三个反引号分隔，
+
+39
+00:02:14,500 --> 00:02:16,840
+generate a reply to thank the customer for their review.
+请生成一封回复以感谢客户的评论。
+
+40
+00:02:16,840 --> 00:02:18,760
+If the sentiment is positive or neutral,
+如果情感是正面的或中性的，
+
+41
+00:02:18,760 --> 00:02:20,440
+thank them for their review.
+感谢他们的评论。
+
+42
+00:02:20,440 --> 00:02:21,960
+If the sentiment is negative,
+如果情感是负面的，
+
+43
+00:02:21,960 --> 00:02:25,240
+apologize and suggest that they can reach out to customer service.
+道歉并建议他们可以联系客户服务。
+
+44
+00:02:25,240 --> 00:02:27,800
+Make sure to use specific details from the review,
+确保使用评论中的具体细节，
+
+45
+00:02:27,800 --> 00:02:29,800
+write in a concise and professional tone,
+用简洁和专业的语气写作，
+
+46
+00:02:29,800 --> 00:02:32,400
+and sign the email as AI customer agent.
+并以AI客户代理的身份签署电子邮件。
+
+47
+00:02:32,400 --> 00:02:34,960
+When you're using a language model to
+当你使用语言模型生成要向
+
+48
+00:02:34,960 --> 00:02:37,480
+generate text that you're going to show to a user,
+你将要向用户展示的文本时，
+
+00:02:37,480 --> 00:02:40,840
+it's very important to have this kind of transparency
+非常重要的是要保持透明，
+
+49
+00:02:40,840 --> 00:02:45,680
+and let the user know that the text they're seeing was generated by AI.
+让用户知道他们看到的文本是由AI生成的。
+
+50
+00:02:45,680 --> 00:02:49,760
+Then we'll just input the customer review and the review sentiment.
+然后，我们只需输入客户评论和评论情感。
+
+51
+00:02:49,760 --> 00:02:53,160
+Also note that this part isn't necessarily important,
+注意，这部分并不一定重要，
+
+52
+00:02:53,160 --> 00:02:55,440
+because we could actually use this prompt to also
+因为我们实际上可以使用此提示来提取评论情感，然后在后续步骤中编写电子邮件。
+
+53
+00:02:55,440 --> 00:02:59,240
+extract the review sentiment and then in a follow-up step, write the email.
+提取评论情感，然后在后续步骤中撰写电子邮件。
+
+54
+00:02:59,240 --> 00:03:01,040
+But just for the sake of the example,
+但是为了这个例子，
+
+55
+00:03:01,040 --> 00:03:04,360
+well, we've already extracted the sentiment from the review.
+我们已经从评论中提取了情感。
+
+56
+00:03:04,360 --> 00:03:08,440
+So here we have a response to the customer.
+我们对客户做出了回应。
+
+57
+00:03:08,440 --> 00:03:14,040
+It addresses details that the customer mentioned in their review.
+它解决了客户在评论中提到的细节问题。
+
+58
+00:03:14,040 --> 00:03:16,560
+As we instructed,
+正如我们的指示，
+
+59
+00:03:16,560 --> 00:03:19,520
+suggest that they reach out to customer service because
+建议他们联系客户服务，因为
+
+61
+00:03:19,520 --> 00:03:23,040
+that this is just an AI customer service agent.
+这仅仅是一个AI客服代理。
+
+00:03:23,740 --> 00:03:30,420
+Next, we're going to use a parameter of the language model called temperature
+接下来，我们将使用语言模型的一个参数，叫做temperature（以下翻译成：“随机性参数”）
+
+62
+00:03:30,360 --> 00:03:36,400
+that will allow us to change the variety of the model's responses.
+这个参数可以改变模型生成响应时的多样性。
+
+00:03:36,400 --> 00:03:38,820
+So you can think of temperature as
+你可以将“随机性参数”视为
+
+64
+00:03:38,820 --> 00:03:43,320
+the degree of exploration or randomness of the model.
+模型探索或随机性的程度。
+
+65
+00:03:43,320 --> 00:03:46,000
+So for this particular phrase,
+例如，在这个短语中：
+
+67
+00:03:46,000 --> 00:03:51,760
+my favorite food is,
+“我最喜欢的食物是”
+
+68
+00:03:51,760 --> 00:03:53,520
+the most likely next word that the model predicts is pizza,
+模型预测的最有可能的下一个单词是pizza，
+
+69
+00:03:53,520 --> 00:03:55,840
+and the next two most likely,
+其次最有可能的是sushi和tacos。
+
+71
+00:03:55,840 --> 00:03:57,600
+So at a temperature of zero,
+当“随机性参数”为0时，
+
+72
+00:03:57,600 --> 00:04:00,000
+the model will always choose the most likely next word,
+模型总是选择最有可能的下一个单词，即pizza。
+
+74
+00:04:01,440 --> 00:04:03,200
+At a higher temperature,
+当“随机性参数”较高时，
+
+75
+00:04:03,200 --> 00:04:07,040
+it will also choose one of the less likely words,
+模型还会选择其中一个不太可能的单词，
+
+76
+00:04:07,040 --> 00:04:09,240
+and at an even higher temperature,
+在更高的“随机性参数”下，
+
+77
+00:04:09,240 --> 00:04:10,640
+it might even choose tacos,
+可能会选择tacos，
+
+78
+00:04:10,640 --> 00:04:15,320
+which only has a five percent chance of being chosen.
+这种情况只有5％的概率被选择。
+
+79
+00:04:15,320 --> 00:04:21,600
+You can imagine that as the model continues this final response,
+可以想象，当模型继续生成最终响应时，
+
+80
+00:04:21,600 --> 00:04:23,240
+so my favorite food is pizza,
+“所以我的最爱是比萨饼，”
+
+81
+00:04:23,240 --> 00:04:25,360
+and it continues to generate more words,
+“并且它继续生成更多单词，”
+
+82
+00:04:25,360 --> 00:04:30,560
+this response will diverge from the first response,
+“此响应将与第一个响应分歧，”
+
+83
+00:04:30,560 --> 00:04:32,280
+which is my favorite food is tacos.
+“也就是我的最爱是tacos。”
+
+84
+00:04:32,280 --> 00:04:34,040
+So as the model continues,
+随着模型的继续，
+
+85
+00:04:34,040 --> 00:04:37,000
+these two responses will become more and more different.
+这两个响应将变得越来越不同。
+
+86
+00:04:37,000 --> 00:04:40,440
+In general, when building applications where you want
+一般来说，当构建需要
+
+87
+00:04:40,440 --> 00:04:43,360
+a predictable response,
+可预测的响应的应用程序时，
+
+88
+00:04:43,360 --> 00:04:45,400
+I would recommend using temperature zero.
+建议使用“随机性参数”为0。
+
+89
+00:04:45,400 --> 00:04:46,720
+Throughout all of these videos,
+在这些视频中，
+
+90
+00:04:46,720 --> 00:04:48,880
+we've been using temperature zero,
+我们一直使用的是“随机性参数”为0，
+
+91
+00:04:48,880 --> 00:04:52,720
+and I think that if you're trying to build a system that is reliable,
+我认为，如果你想要构建一个可靠的系统，
+
+92
+00:04:52,720 --> 00:04:54,600
+and predictable, you should go with this.
+而且可预测的话，应该使用这个方法。
+
+93
+00:04:54,600 --> 00:04:58,720
+If you're trying to use the model in a more creative way,
+如果你想以更有创造性的方式使用模型，
+
+94
+00:04:58,720 --> 00:05:04,160
+where you might want a wider variety of different outputs,
+那么你可能想要获得更多不同的输出，
+
+95
+00:05:04,160 --> 00:05:06,800
+you might want to use a higher temperature.
+这时你可能需要使用更高的“随机性参数”。
+
+96
+00:05:06,800 --> 00:05:11,560
+So now let's take this same prompt that we just used,
+现在，让我们使用刚刚使用过的相同提示，
+
+97
+00:05:11,560 --> 00:05:14,160
+and let's try generating an email,
+并尝试生成一封电子邮件，
+
+98
+00:05:14,160 --> 00:05:16,080
+but let's use a higher temperature.
+但这次使用一个更高的“随机性参数”。
+
+99
+00:05:16,080 --> 00:05:21,480
+So in our get_Completion function that we've been using throughout the videos,
+我们一直在视频中使用的get_Completion函数中，
+
+100
+00:05:21,480 --> 00:05:25,040
+we have specified a model and then also a temperature,
+我们已经指定了一个模型和一个“随机性参数”，
+
+101
+00:05:25,040 --> 00:05:26,480
+but we've set them to default.
+但是我们将它们设置为默认值。
+
+102
+00:05:26,480 --> 00:05:29,360
+So now let's try varying the temperature.
+所以现在让我们尝试改变“随机性参数”。
+
+103
+00:05:29,360 --> 00:05:32,800
+So we use the prompt,
+我们使用提示，
+
+104
+00:05:32,800 --> 00:05:39,280
+and then let's try temperature 0.7.
+然后尝试使用“随机性参数”=0.7。
+
+105
+00:05:39,280 --> 00:05:45,280
+And so with temperature zero,
+所以在“随机性参数”为0的情况下，
+
+106
+00:05:45,280 --> 00:05:47,160
+every time you execute the same prompt,
+每次执行相同的提示时，
+
+107
+00:05:47,160 --> 00:05:50,520
+you should expect the same completion,
+你应该期望得到相同的完成结果，
+
+108
+00:05:50,520 --> 00:05:52,520
+whereas with temperature 0.7,
+而使用“随机性参数”=0.7，
+
+109
+00:05:52,520 --> 00:05:55,000
+you'll get a different output every time.
+你会每次得到不同的输出。
+
+110
+00:05:55,000 --> 00:05:58,040
+So here we have our email,
+这里是我们的电子邮件，
+
+111
+00:05:58,040 --> 00:06:00,960
+and as you can see, it's different to the email
+正如你所看到的，它与之前收到的电子邮件不同。
+
+112
+00:06:00,960 --> 00:06:02,800
+that we kind of received previously.
+之前收到的那个。
+
+113
+00:06:02,800 --> 00:06:04,800
+And let's just execute it again
+现在，让我们再次执行它，
+
+114
+00:06:04,800 --> 00:06:07,800
+to show that we'll get a different email again.
+以证明我们会再次得到一个不同的电子邮件。
+
+115
+00:06:07,800 --> 00:06:11,320
+And here we have another different email.
+这里是另一个不同的电子邮件。
+
+116
+00:06:11,320 --> 00:06:16,720
+So I recommend that you kind of play around with temperature yourself.
+我建议你自己试试“随机性参数”。
+
+117
+00:06:16,720 --> 00:06:20,760
+Maybe you could pause the video now and try this prompt
+也许你现在可以暂停视频，尝试这个提示，
+
+118
+00:06:20,760 --> 00:06:22,600
+with a variety of different temperatures,
+使用各种不同的“随机性参数”，
+
+119
+00:06:22,600 --> 00:06:24,600
+just to see how the outputs vary.
+只是为了看看输出如何变化。
+
+120
+00:06:24,600 --> 00:06:28,440
+So to summarize, at higher temperatures，
+总的来说，在更高的“随机性参数”下，
+
+121
+00:06:28,440 --> 00:06:31,640
+the outputs from the model are kind of more random.
+模型的输出更加随机。
+
+122
+00:06:31,640 --> 00:06:34,440
+You can almost think of it as that at higher temperatures,
+你可以将其想象成在更高的“随机性参数”下，
+
+123
+00:06:34,440 --> 00:06:36,440
+the assistant is more distractible,
+助手更容易分心，
+
+124
+00:06:36,440 --> 00:06:38,440
+but maybe more creative.
+但也可能更有创造性。
+
+125
+00:06:38,440 --> 00:06:40,440
+In the next video,
+在下一个视频中，
+
+126
+00:06:40,440 --> 00:06:44,440
+we're going to talk more about the chat，completion，endpoint format
+我们将更多地讨论聊天、补全、终端的格式，
+
+127
+00:06:44,440 --> 00:06:48,440
+and how you can create a custom chatbot using this format.
+以及如何使用此格式创建自定义聊天机器人。
